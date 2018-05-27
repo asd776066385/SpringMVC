@@ -258,6 +258,13 @@
             <version>1.8.1.RELEASE</version>
         </dependency>
 
+        <!--ssh包-->
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.54</version>
+        </dependency>
+
     </dependencies>
 
     <build>

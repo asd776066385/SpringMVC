@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.dao.UserDao">
+
+    <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache" >
+        <property name="timeToIdleSeconds" value="3600"/>
+        <property name="timeToLiveSeconds" value="3600"/>
+        <property name="maxEntriesLocalHeap" value="1000"/>
+        <property name="maxEntriesLocalDisk" value="10000000"/>
+        <property name="memoryStoreEvictionPolicy" value="LRU"/>
+    </cache>-->
+
+    <resultMap id="BaseResultMap" type="com.base.model.UserVO">
+        <id column="user_id" jdbcType="CHAR" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_pass" jdbcType="VARCHAR" property="userPasss"/>
+        <result column="actor" jdbcType="VARCHAR" property="actor"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="cteatedTime"/>
+        <result column="modifyed_time" jdbcType="TIMESTAMP" property="modifyedTime"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select user_id,user_name, user_pass, actor, created_time, modifyed_time, description
+        from test_user
+        where 1=1
+        <if test="userName != null">
+          and user_name = #{userName,jdbcType=VARCHAR},
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.base.model.UserVO">
+        insert into test_user (user_id, user_name, user_pass,actor, created_time, modifyed_time, description)
+        values (#{userId,jdbcType=CHAR}, #{userName,jdbcType=VARCHAR}, #{userPasss,jdbcType=VARCHAR},
+        #{actor,jdbcType=VARCHAR}, #{cteatedTime,jdbcType=TIMESTAMP},
+        #{modifyedTime,jdbcType=TIMESTAMP},#{description,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="selectAllList" resultMap="BaseResultMap">
+        SELECT user_id,user_name,user_pass,actor,created_time,modifyed_time,description FROM test_user
+    </select>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT user_id,user_name,user_pass,actor,created_time,modifyed_time,description FROM test_user
+        <if test="userName != null">
+            user_name = #{userName,jdbcType=VARCHAR},
+        </if>
+        limit #{pageBegin},#{pageEnd}
+    </select>
+
+    <select id="selectCount" parameterType="java.lang.String" resultType="int">
+        SELECT COUNT(*) FROM test_user
+        <if test="userName != null">
+            user_name = #{userName,jdbcType=VARCHAR},
+        </if>
+    </select>
+</mapper>
